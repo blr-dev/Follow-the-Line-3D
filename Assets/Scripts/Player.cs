@@ -22,8 +22,6 @@ public class Player : MonoBehaviour {
         rb = this.GetComponent<Rigidbody>();
     }
 
-
-
 	void Update() 
 	{
 		if(Input.GetMouseButtonDown (0) && canmove) 

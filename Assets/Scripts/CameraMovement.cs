@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
-
-    [SerializeField] Transform target;
+    
+    [SerializeField] GameObject target;
     Vector3 offset;
 
 	void Start()
     {
-        offset = target.transform.position - this.transform.position;
-	}
+        if (target == null)
+              target = GameObject.FindGameObjectWithTag("Player").gameObject;
+
+        offset = target.transform.position - transform.position;
+    }
 	
 	void Update()
     {
-        if(target.gameObject.GetComponent<Player>().canmove)
+        if(target.GetComponent<Player>().canmove)
         {
             Vector3 Requiredpos = target.transform.position - offset;
-            this.transform.position = Vector3.Lerp(this.transform.position, Requiredpos, 1.5f);
+            transform.position = Requiredpos;
+            //transform.position = Vector3.Lerp(transform.position, Requiredpos, 1.5f);
         }
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -25,9 +25,14 @@ public class GameController : MonoBehaviour {
 
     void Start()
     {
+        InitializeGame();
+    }
+
+    private void InitializeGame()
+    {
         Player.endGame = false;
-        Instantiate(camera);
         Instantiate(player);
+        Instantiate(camera);
         Instantiate(platform);
         Instantiate(spawnPlatform);
         RestartButton.gameObject.SetActive(false);
@@ -36,10 +41,6 @@ public class GameController : MonoBehaviour {
         size = platform.transform.localScale.x;
         lastpos = platform.transform.position;
         InvokeRepeating("SpawnPlatform", 1f, 0.2f);
-        for (int x = 0; x < 5; x++)
-        {
-            SpawnPlatform();
-        }
     }
 
     public void ClearScene()
@@ -52,15 +53,18 @@ public class GameController : MonoBehaviour {
         {
             Destroy(o);
         }
+        Destroy(player);
         Destroy(spawnPlatform);
         DestroyImmediate(platform);
+        Destroy(camera);
+        RestartButton.gameObject.SetActive(false);
     }
 
     public void RestartGame()
     {
         ClearScene();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Start();
+        InitializeGame();
     }
 
     private void ClearPlayerCache()
@@ -79,7 +83,7 @@ public class GameController : MonoBehaviour {
         /*
         switch (PlayerPrefs.GetInt("Score"))
         {
-            case 1: { setColor = Color.red; break;  }
+            case 1..4: { setColor = Color.red; break;  }
             case 2: { setColor = Color.blue; break; }
             case 3: { setColor = Color.green; break; }
             case 4: { setColor = Color.black; break; }
@@ -87,11 +91,11 @@ public class GameController : MonoBehaviour {
         */
         var actualScore = PlayerPrefs.GetInt("Score");
         if (actualScore == 3)
-            platformsColor = Color.green;
-        else if (actualScore == 5)
-            platformsColor = Color.cyan;
-        else if (actualScore == 10)
             platformsColor = Color.grey;
+        else if (actualScore == 7)
+            platformsColor = Color.white;
+        else if (actualScore == 10)
+            platformsColor = Color.magenta;
 
 
         int random = Random.Range(1, 11);
