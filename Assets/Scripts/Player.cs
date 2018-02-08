@@ -16,13 +16,13 @@ public class Player : MonoBehaviour {
     [SerializeField] Button RestartButton;
 
 
-    void Start() 
-	{
+    public void InitializePlayer()
+    {
         endGame = false;
-        rb = this.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
-	void Update() 
+	void Update()  
 	{
 		if(Input.GetMouseButtonDown (0) && canmove) 
 		{

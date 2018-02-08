@@ -7,10 +7,11 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField] GameObject target;
     Vector3 offset;
 
-	void Start()
+    public void InitializeCameraMovement(GameObject GameObject)
     {
+        target = GameObject;
         if (target == null)
-              target = GameObject.FindGameObjectWithTag("Player").gameObject;
+            target = GameObject.FindGameObjectWithTag("Player").gameObject;
 
         offset = target.transform.position - transform.position;
     }

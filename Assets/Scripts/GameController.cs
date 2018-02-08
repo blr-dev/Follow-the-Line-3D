@@ -8,11 +8,18 @@ public class GameController : MonoBehaviour {
 
     public static GameController instance;
     private float size;
+    [Header("Referencje")]
+    [SerializeField] Player pc; // pc - player character
+    [SerializeField] CameraMovement cscript; // camera script
+    public GameObject playerObj;
+    public GameObject cameraObj;
+
+    [Header("Prefaby")]
     [SerializeField] GameObject platform;
     [SerializeField] GameObject gem;
     [SerializeField] GameObject spawnPlatform;
     [SerializeField] GameObject player;
-    [SerializeField] new Camera camera;
+    [SerializeField] GameObject cam;
     Vector3 lastpos;
     public Button RestartButton;
 
@@ -30,9 +37,16 @@ public class GameController : MonoBehaviour {
 
     private void InitializeGame()
     {
-        Player.endGame = false;
-        Instantiate(player);
-        Instantiate(camera);
+        playerObj = Instantiate(player);
+        pc = playerObj.GetComponent<Player>();
+        pc.InitializePlayer();
+
+        cameraObj = Instantiate(cam);
+        cscript = cameraObj.GetComponent<CameraMovement>();
+        cscript.InitializeCameraMovement(playerObj);
+        
+
+        
         Instantiate(platform);
         Instantiate(spawnPlatform);
         RestartButton.gameObject.SetActive(false);
@@ -56,7 +70,6 @@ public class GameController : MonoBehaviour {
         Destroy(player);
         Destroy(spawnPlatform);
         DestroyImmediate(platform);
-        Destroy(camera);
         RestartButton.gameObject.SetActive(false);
     }
 

@@ -16,7 +16,6 @@ public class PlayerLightMovement : MonoBehaviour
     {
         if (target.gameObject.GetComponent<Player>().canmove)
         {
-            Debug.Log("test");
             Vector3 Requiredpos = target.transform.position - offset;
             this.transform.position = Vector3.Lerp(this.transform.position, Requiredpos, 1.5f);
         }
