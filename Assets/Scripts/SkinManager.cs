@@ -12,7 +12,7 @@ public class SkinManager : MonoBehaviour {
 
     void Update()
     {
-        SetColor(GameController.instance.platformsColor);
+        SetColor(GameManager.instance.platformsColor);
     }
 
 }

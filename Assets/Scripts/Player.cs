@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
 
 	private void FallDown()
 	{
-        GameController.instance.RestartButton.gameObject.SetActive(true);
+        GameManager.instance.RestartButton.gameObject.SetActive(true);
         endGame = true;
 		canmove = false;
         CancelInvoke("SpawnPlatform");

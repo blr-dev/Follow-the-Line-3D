@@ -4,9 +4,9 @@ using UnityEngine.UI;
 using UnityEngine;
 //using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 
-    public static GameController instance;
+    public static GameManager instance;
     private float size;
     [Header("Referencje")]
     [SerializeField] Player pc; // pc - player character
