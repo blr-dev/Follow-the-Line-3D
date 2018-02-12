@@ -57,8 +57,9 @@ public class Player : MonoBehaviour {
 		canmove = false;
         CancelInvoke("SpawnPlatform");
         rb.velocity = new Vector3(0f, -4f, 0f);
-        PlayerPrefs.SetInt("HighScore", PlayerPrefs.GetInt("Score"));
-	}
+        if (PlayerPrefs.GetInt("HighScore") < PlayerPrefs.GetInt("Score"))
+            PlayerPrefs.SetInt("HighScore", PlayerPrefs.GetInt("Score"));
+    }
 
     void OnTriggerEnter(Collider col)
     {
