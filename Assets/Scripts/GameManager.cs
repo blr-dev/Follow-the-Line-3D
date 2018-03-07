@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] GameObject cam;
     Vector3 lastpos;
     public Button RestartButton;
+    public bool platformsColor_soundPlay;
 
     public Color platformsColor;
 
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour {
 
     public void ClearScene()
     {
+        Sound.instance.PlayAudio(0);
         foreach (GameObject o in GameObject.FindGameObjectsWithTag("Platform"))
         {
             Destroy(o);
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour {
 
     private void SpawnPlatform()
     {
-        if(Player.endGame == true)
+        if (Player.endGame == true)
         {
             CancelInvoke("SpawnPlatform");
         }
@@ -104,11 +106,26 @@ public class GameManager : MonoBehaviour {
         */
         var actualScore = PlayerPrefs.GetInt("Score");
         if (actualScore == 3)
+        {
+            platformsColor_soundPlay = true;
             platformsColor = Color.grey;
+        }
         else if (actualScore == 7)
+        {
             platformsColor = Color.white;
+            platformsColor_soundPlay = true;
+        }
         else if (actualScore == 10)
+        {
+            platformsColor_soundPlay = true;
             platformsColor = Color.magenta;
+        }
+
+        if(platformsColor_soundPlay)
+        {
+            Sound.instance.PlayAudio(2);
+            platformsColor_soundPlay = false;
+        }
 
 
         int random = Random.Range(1, 11);

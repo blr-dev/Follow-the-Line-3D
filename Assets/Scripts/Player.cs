@@ -10,15 +10,19 @@ public class Player : MonoBehaviour {
 
     private Rigidbody rb;
     private bool ismovingright = false;
+    public bool fallDown;
 	[HideInInspector] public bool canmove = true;
     [SerializeField] float speed = 4f;
     [SerializeField] GameObject particle;
     [SerializeField] Button RestartButton;
 
+    [SerializeField] AudioSource audio;
+
 
     public void InitializePlayer()
     {
         endGame = false;
+        audio = GameObject.Find("GemSound").GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -39,19 +43,21 @@ public class Player : MonoBehaviour {
 
 		if(Physics.Raycast (this.transform.position, Vector3.down * 2) == false) 
 		{
-			FallDown();
+			if(fallDown == false) FallDown();
 		}
-        /*
+        
         if(Input.GetKeyDown(KeyCode.R))
         {
-            GameController.RestartGame();
+            GameManager.instance.RestartGame();
         }
-        */
+        
 	}
 
 
-	private void FallDown()
+	public void FallDown()
 	{
+        fallDown = true;
+        Sound.instance.PlayAudio(1);
         GameManager.instance.RestartButton.gameObject.SetActive(true);
         endGame = true;
 		canmove = false;
@@ -65,10 +71,12 @@ public class Player : MonoBehaviour {
     {
         if (col.gameObject.tag == "Gem")
         {
+            audio.Play();
             Destroy(col.gameObject);
             PlayerPrefs.SetInt("Score", PlayerPrefs.GetInt("Score")+1);
             GameObject _particle = Instantiate(particle) as GameObject;
             _particle.transform.position = this.transform.position;
+          //  FindObjectOfType<AudioManager>().Play("PickGem");
         }
     }
 }
