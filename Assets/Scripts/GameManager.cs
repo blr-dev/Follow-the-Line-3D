@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour {
         ClearPlayerCache();
         size = platform.transform.localScale.x;
         lastpos = platform.transform.position;
-        InvokeRepeating("SpawnPlatform", 1f, 0.2f);
+        InvokeRepeating("SpawnPlatform", 1f, 0.25f);
     }
 
     public void ClearScene()
