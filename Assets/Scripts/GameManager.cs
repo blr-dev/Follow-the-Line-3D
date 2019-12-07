@@ -1,30 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using UnityEngine;
-//using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
-
+public class GameManager : MonoBehaviour
+{
     public static GameManager instance;
-    private float size;
+    
     [Header("Referencje")]
-    [SerializeField] Player pc; // pc - player character
-    [SerializeField] CameraMovement cscript; // camera script
-    public GameObject playerObj;
-    public GameObject cameraObj;
+    [SerializeField] Player player;
+    [SerializeField] CameraMovement cameraMovement;
+    public GameObject camera;
 
     [Header("Prefaby")]
-    [SerializeField] GameObject platform;
-    [SerializeField] GameObject gem;
-    [SerializeField] GameObject spawnPlatform;
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject cam;
+    [SerializeField] GameObject platformPrefab;
+    [SerializeField] GameObject gemPrefab;
+    [SerializeField] GameObject startPlatformPrefab;
+    [SerializeField] Player playerPrefab;
+    [SerializeField] GameObject cameraPrefab;
+
     Vector3 lastpos;
     public Button RestartButton;
     public bool platformsColor_soundPlay;
-
     public Color platformsColor;
+
+    float size;
 
     void Awake()
     {
@@ -36,25 +34,24 @@ public class GameManager : MonoBehaviour {
         InitializeGame();
     }
 
-    private void InitializeGame()
+    void InitializeGame()
     {
-        playerObj = Instantiate(player);
-        pc = playerObj.GetComponent<Player>();
-        pc.InitializePlayer();
+        player = Instantiate(playerPrefab);
+        player.InitializePlayer();
 
-        cameraObj = Instantiate(cam);
-        cscript = cameraObj.GetComponent<CameraMovement>();
-        cscript.InitializeCameraMovement(playerObj);
-        
+        camera = Instantiate(cameraPrefab);
+        cameraMovement = camera.GetComponent<CameraMovement>();
+        cameraMovement.InitializeCameraMovement(player.gameObject);
 
-        
-        Instantiate(platform);
-        Instantiate(spawnPlatform);
+
+
+        Instantiate(platformPrefab);
+        Instantiate(startPlatformPrefab);
         RestartButton.gameObject.SetActive(false);
         RestartButton.onClick.AddListener(RestartGame);
         ClearPlayerCache();
-        size = platform.transform.localScale.x;
-        lastpos = platform.transform.position;
+        size = platformPrefab.transform.localScale.x;
+        lastpos = platformPrefab.transform.position;
         InvokeRepeating("SpawnPlatform", 1f, 0.25f);
     }
 
@@ -69,9 +66,9 @@ public class GameManager : MonoBehaviour {
         {
             Destroy(o);
         }
-        Destroy(player);
-        Destroy(spawnPlatform);
-        DestroyImmediate(platform);
+        Destroy(playerPrefab);
+        Destroy(startPlatformPrefab);
+        DestroyImmediate(platformPrefab);
         RestartButton.gameObject.SetActive(false);
     }
 
@@ -94,7 +91,7 @@ public class GameManager : MonoBehaviour {
         {
             CancelInvoke("SpawnPlatform");
         }
-        var _platform = Instantiate(platform);
+        var _platform = Instantiate(platformPrefab);
         /*
         switch (PlayerPrefs.GetInt("Score"))
         {
@@ -121,7 +118,7 @@ public class GameManager : MonoBehaviour {
             platformsColor = Color.magenta;
         }
 
-        if(platformsColor_soundPlay)
+        if (platformsColor_soundPlay)
         {
             Sound.instance.PlayAudio(2);
             platformsColor_soundPlay = false;
@@ -144,7 +141,7 @@ public class GameManager : MonoBehaviour {
 
     private void SpawnGem()
     {
-        Instantiate(gem, lastpos + new Vector3(0f, 0.7f, 0f), gem.transform.rotation);
+        Instantiate(gemPrefab, lastpos + new Vector3(0f, 0.7f, 0f), gemPrefab.transform.rotation);
     }
 }
 
