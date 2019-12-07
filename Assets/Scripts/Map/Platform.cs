@@ -14,6 +14,6 @@ public class Platform : MonoBehaviour {
     private void FallDown()
     {
         this.GetComponentInParent<Rigidbody>().isKinematic = false;
-        Destroy(this.transform.parent.gameObject, 1f);
+        //Destroy(this.transform.parent.gameObject, 1f);
     }
 }

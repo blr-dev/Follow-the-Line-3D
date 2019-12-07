@@ -1,28 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
-    
-    [SerializeField] GameObject target;
+    [SerializeField] Player target;
     Vector3 offset;
 
-    public void InitializeCameraMovement(GameObject GameObject)
+    public void InitializeCameraMovement(Player target)
     {
-        target = GameObject;
-        if (target == null)
-            target = GameObject.FindGameObjectWithTag("Player").gameObject;
-
-        offset = target.transform.position - transform.position;
+        this.target = target;
+        offset = this.target.transform.position - transform.position;
     }
 	
 	void Update()
     {
-        if(target.GetComponent<Player>().canmove)
+        if(target.canMove)
         {
-            Vector3 Requiredpos = target.transform.position - offset;
-            transform.position = Requiredpos;
-            //transform.position = Vector3.Lerp(transform.position, Requiredpos, 1.5f);
+            var newPosition = target.transform.position - offset;
+            transform.position = newPosition;
         }
 	}
 }

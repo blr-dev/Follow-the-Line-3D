@@ -4,18 +4,16 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class DisplayScore : MonoBehaviour {
-
     [SerializeField] Text score;
     void Start ()
     {
-        score = gameObject.GetComponent<Text>();
+        score = GetComponent<Text>();
         score.text = "Score: 0";
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        score = gameObject.GetComponent<Text>();
-        score.text = "Score: " + PlayerPrefs.GetInt("Score", 0).ToString();
+        score.text = "Score: " + PlayerPrefs.GetInt("Score", 0);
     }
 
 }

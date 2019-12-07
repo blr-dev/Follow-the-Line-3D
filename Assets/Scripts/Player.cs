@@ -11,7 +11,7 @@ public class Player : MonoBehaviour {
     private Rigidbody rb;
     private bool ismovingright = false;
     public bool fallDown;
-	[HideInInspector] public bool canmove = true;
+	[HideInInspector] public bool canMove = true;
     [SerializeField] float speed = 4f;
     [SerializeField] GameObject particle;
     [SerializeField] Button RestartButton;
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 
 	void Update()  
 	{
-		if(Input.GetMouseButtonDown (0) && canmove) 
+		if(Input.GetMouseButtonDown (0) && canMove) 
 		{
             ismovingright = !ismovingright;
             if (ismovingright)
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour {
         
         if(Input.GetKeyDown(KeyCode.R))
         {
-            GameManager.instance.RestartGame();
+            GameManager.instance.RestartLevel();
         }
         
 	}
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour {
         Sound.instance.PlayAudio(1);
         GameManager.instance.RestartButton.gameObject.SetActive(true);
         endGame = true;
-		canmove = false;
+		canMove = false;
         CancelInvoke("SpawnPlatform");
         rb.velocity = new Vector3(0f, -4f, 0f);
         if (PlayerPrefs.GetInt("HighScore") < PlayerPrefs.GetInt("Score"))
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
             audio.Play();
             Destroy(col.gameObject);
             PlayerPrefs.SetInt("Score", PlayerPrefs.GetInt("Score")+1);
-            GameObject _particle = Instantiate(particle) as GameObject;
+            GameObject _particle = Instantiate(particle, col.gameObject.transform.parent) as GameObject;
             _particle.transform.position = this.transform.position;
           //  FindObjectOfType<AudioManager>().Play("PickGem");
         }
